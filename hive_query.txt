@@ -1,0 +1,25 @@
+1.Fetch date and temperature from temperature_data where zip code is greater than
+300000 and less than 399999.
+
+select date,temperature from temperature_data where(zipcode BETWEEN '300000' AND '399999');
+
+2. Calculate maximum temperature corresponding to every year from temperature_data
+table.
+
+select substr(date,7,10),MAX(temperature) from temperature_data group by substr(date,7,10);
+
+3.Calculate maximum temperature from temperature_data table corresponding to those
+years which have at least 2 entries in the table.
+
+select substr(date,7,10),MAX(temperature) from temperature_data group by substr(date,7,10) having count(substr(date,7,10))>2; 
+
+4.Create a view on the top of last query, name it temperature_data_vw.
+
+crete view temperature_data_vw as select substr(date,7,10),MAX(temperature) from temperature_data group by substr(date,7,10) having 
+count(substr(date,7,10))>2; 
+
+5.Export contents from temperature_data_vw to a file in local file system, such that each
+file is '|' delimited.
+
+INSET OVERWRITE LOCAL DIRECTORY '/usr/local/Downloads' ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' 
+select * from temperature_data_v;
